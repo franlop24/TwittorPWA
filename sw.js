@@ -35,7 +35,7 @@ self.addEventListener('install', e => {
 self.addEventListener('activate', e => {
     const respuesta = caches.keys().then(keys => {
         keys.forEach(key => {
-            if(key !== STATIC_CACHE && key.includes('static')){
+            if (key !== STATIC_CACHE && key.includes('static')) {
                 return caches.delete(key);
             }
         });
@@ -46,13 +46,13 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
     const respuesta = caches.match(e.request).then(resp => {
-         if(resp){
+        if (resp) {
             return resp;
-         } else {
+        } else {
             return fetch(e.request).then(newRes => {
                 return actualizaCacheDinamico(DYNAMIC_CACHE, e.request, newRes);
             })
-         }
+        }
     });
 
     e.respondWith(respuesta);
